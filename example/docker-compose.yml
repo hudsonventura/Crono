@@ -1,0 +1,50 @@
+version: '3'
+services:
+
+  service1:
+    image: "postgres"
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=myStr0ngP4ssw0rd
+    labels:
+        crono: "* * * * *"
+
+  service2:
+    image: "postgres"
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=myStr0ngP4ssw0rd
+    labels:
+        crono: "@hourly"
+
+  service3:
+    image: "postgres:"
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=myStr0ngP4ssw0rd
+    labels:
+        crono: "5 0 * 8 *"
+
+  service4:
+    image: "postgres:"
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=myStr0ngP4ssw0rd
+    labels:
+        crono: "50-59 * * * 1-5"
+
+  crono:
+    build: app
+    restart: always
+    volumes:
+      - "./docker-compose.yml:/app/docker-compose.yml"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    
+    environment: 
+      - TIMEZONE=America/Sao_Paulo
+      - WAIT=3
+  

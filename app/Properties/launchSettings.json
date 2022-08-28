@@ -1,0 +1,18 @@
+{
+  "profiles": {
+    "Crono": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "TIMEZONE": "America/Sao_Paulo"
+      }
+    },
+    "Docker": {
+      "commandName": "Docker"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "environmentVariables": {},
+      "distributionName": ""
+    }
+  }
+}

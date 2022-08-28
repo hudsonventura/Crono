@@ -1,0 +1,49 @@
+version: '3'
+services:
+
+  db:
+    image: "postgres:${DB_VERSION}"
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    labels:
+        crono: "*/1 13,14,15,20,21,22,23 12-20/2 * 5-6"
+
+  db2:
+    image: "postgres:${DB_VERSION}"
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    labels:
+        crono: "@hourly"
+
+  db3:
+    image: "postgres:${DB_VERSION}"
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    labels:
+        crono: "5-55/2 7-20 * 8 1-5"
+
+  db4:
+    image: "postgres:${DB_VERSION}"
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    labels:
+        crono: "* * * * *"
+  crono:
+    build: app
+    restart: always
+    volumes:
+      - "./docker-compose.yml:/app/docker-compose.yml"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    environment: 
+      - TIMEZONE=America/Cuiaba
+      - WAIT=3
+  
+  
