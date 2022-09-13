@@ -66,7 +66,7 @@ void start() {
     containers = LinuxCron.ajustString(containers);
     try
     {
-        var runningContainers = Docker.getContainersRunning();
+        var runningContainers = Docker.getContainersCreated();
         containers = Docker.getContainersID(containers, runningContainers);
     }
     catch (Exception error)
