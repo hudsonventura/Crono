@@ -67,21 +67,21 @@ You can infform some keys like @yearly, @annually, @monthly, @weekly, @daily or 
         - TIMEZONE=America/Sao_Paulo
         - WAIT=3
 ```
-The first one volume, you have to link your docker-compose file. Crono will read this file pointed to work.
+The first one volume, you have to link your docker-compose file. Crono will read this file to work.
 <br>
 <br>
 The second one volume, will used from Crono to call Docker Api.
 <br>
 <br>
-The first one environment, you can identify a timezone. In my tests the default timezone inside container was +0UTC.
+The first one environment, you can identify a timezone. In my tests the default timezone inside container was +0UTC, so I created this.
 <br>
 <br>
 The second one environment is the time that Crono will wait until all containers be up.<br>
 You also can use the docker-compose params called links.
 <br>
 <br>
-The two volumes params is mandatory, but environments is optional.
+The volumes params are mandatories, but the environments are optional.
 <br>
 <br>
 <br>
-The complete example file is in the directory example.
+The complete example file is in the directory examples.
