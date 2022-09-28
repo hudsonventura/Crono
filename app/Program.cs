@@ -16,6 +16,26 @@ catch (Exception)
 
 }
 
+//RUN JUST ONE TIME
+List<Container> containers = Yaml.loadFromFile(@$"docker-compose.yml");
+if (containers.Count == 0)
+{
+    Console.WriteLine("I did not read any container with label crono. Please configure some below:");
+    Console.WriteLine("labels:");
+    Console.WriteLine("\tcrono: \"* * * * *\"");
+    return;
+}
+
+Console.WriteLine("I read:");
+foreach (Container container in containers)
+{
+    Console.WriteLine($"\t{container.serviceName}: {container.scheduling}");
+}
+
+Console.WriteLine("Starting the work");
+
+
+//LOOP
 while (true)
 {
     
@@ -41,14 +61,19 @@ while (true)
     {
         if (firstRun)
         {
-            Console.WriteLine("You did not specify the timezone. If you want, put some thing like below in your docker-compose file.");
+            Console.WriteLine("You did not specify the timezone, so I get the timezone from the container. If you want, put some thing like below in your docker-compose file in crono.");
             Console.WriteLine("environment:");
             Console.WriteLine("\t- TIMEZONE=America/Sao_Paulo");
             firstRun = false;
         }
         
     }
-    Console.WriteLine("Starting");
+
+    if (DateTime.Now.Minute % 10 == 0 )
+    {
+        Console.WriteLine("Don't worry. I'm working here!");
+    }
+    
     Task.Run(() => start());
     Thread.Sleep(1000);
     GC.Collect();
@@ -71,7 +96,7 @@ void start() {
     }
     catch (Exception error)
     {
-        Console.WriteLine($"Erro on get running container. Error: {error.Message}", Console.typeMessage.FAIL);
+        Console.WriteLine($"Error on get running container. Error: {error.Message}", Console.typeMessage.FAIL);
     }
     
 
