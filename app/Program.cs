@@ -96,7 +96,7 @@ void start() {
     }
     catch (Exception error)
     {
-        Console.WriteLine($"Error on get running container. Error: {error.Message}", Console.typeMessage.FAIL);
+        //Console.WriteLine($"Error on get running container. Error: {error.Message}", Console.typeMessage.FAIL);
     }
     
 
@@ -105,7 +105,8 @@ void start() {
         var atuate = LinuxCron.Bind(container);
         if (atuate)
         {
-            Console.WriteLine($"Restarting service: {container.serviceName}, {container.scheduling} -> {container.containerID}");
+            //Console.WriteLine($"Restarting service: {container.serviceName} by schedulling {container.scheduling} -> {container.containerID}");
+            Console.WriteLine($"Trying to restart the service: {container.serviceName}");
             try
             {
                 Task.Run(() => Docker.operateContainer(container, "restart"));

@@ -85,3 +85,31 @@ The volumes params are mandatories, but the environments are optional.
 <br>
 <br>
 The complete example file is in the directory examples.
+<br>
+<br>
+
+## If you want to compile you image ...
+<br>
+
+Change docker compose file to get local image:
+```yaml
+crono:
+    image: crono  #HERE
+    restart: always
+    volumes:
+        - "./docker-compose.yml:/app/docker-compose.yml"
+        - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    
+    environment: 
+        - TIMEZONE=America/Sao_Paulo
+        - WAIT=3
+```
+
+<br>
+Build:
+
+``` bash
+docker build -t crono -f ./app/Dockerfile_x64_x86/Dockerfile ./app/
+cd example/
+docker compose up
+```

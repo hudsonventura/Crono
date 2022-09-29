@@ -2,7 +2,7 @@ version: '3'
 services:
 
   service1:
-    image: "postgres"
+    image: postgres
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -11,7 +11,7 @@ services:
         crono: "* * * * *"
 
   service2:
-    image: "postgres"
+    image: postgres
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -20,7 +20,7 @@ services:
         crono: "@hourly"
 
   service3:
-    image: "postgres:"
+    image: postgres
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -29,7 +29,7 @@ services:
         crono: "5 0 * 8 *"
 
   service4:
-    image: "postgres:"
+    image: postgres
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -38,7 +38,7 @@ services:
         crono: "50-59 * * * 1-5"
 
   crono:
-    build: app
+    image: hudsonventura/crono:latest
     restart: always
     volumes:
       - "./docker-compose.yml:/app/docker-compose.yml"
