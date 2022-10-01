@@ -14,16 +14,26 @@ namespace Crono
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.Start();
-            //* Read the output (or the error)
+
             string output = process.StandardOutput.ReadToEnd();
-            //Console.WriteLine(output);
             string err = process.StandardError.ReadToEnd();
-            //Console.WriteLine(err);
             process.WaitForExit();
+
+            //System.Console.WriteLine(output);
+
+            if (output == "" && err == "")
+            {
+                throw new Exception(process.BasePriority.ToString());
+            }
+            if (err != "")
+            {
+                throw new Exception(err);
+            }
+
 
             if (output == null)
             {
-                return err;
+                throw new Exception(err);
             }
             return output;
         }

@@ -1,4 +1,4 @@
-class Console
+﻿class Console
 {
     public enum typeMessage{
         SUCESS,
@@ -6,7 +6,7 @@ class Console
         NULL
     }
 
-    private static char notice = '\u2192';
+    private static char notice = '\u2757';
 
     public static void WriteLine(string msg, typeMessage success = typeMessage.NULL){
         Console.Write(msg, success);
@@ -22,13 +22,13 @@ class Console
 
         if (success == typeMessage.SUCESS) { 
             System.Console.ForegroundColor = ConsoleColor.Green;
-            System.Console.Write(notice);
+            //System.Console.Write(notice);
         }
 
 
         if (success == typeMessage.FAIL) {
             System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.Write(notice);
+            //System.Console.Write(notice);
         }
             
 

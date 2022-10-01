@@ -55,12 +55,10 @@ You can infform some keys like @yearly, @annually, @monthly, @weekly, @daily or 
 ## Put the Crono service
 ```yaml
   crono:
-    # choose just one: build or image. I recommend image
-    #build: app                  #to build from source
-    image: hudsonventura/crono  #to use the currrent image from Docker Hub
+    image: hudsonventura/crono:latest
     restart: always
     volumes:
-        - "./docker-compose.yml:/app/docker-compose.yml"
+        - "./docker-compose.yml:/app/docker-compose.yml" # point you docker-compose file
         - "/var/run/docker.sock:/var/run/docker.sock:ro"
     
     environment: 
@@ -106,10 +104,12 @@ crono:
 ```
 
 <br>
-Build:
+On example directory, run it to build:
 
 ``` bash
-docker build -t crono -f ./app/Dockerfile_x64_x86/Dockerfile ./app/
-cd example/
-docker compose up
+sudo docker compose down && \
+cd .. && \
+sudo docker build -t crono -f ./app/Dockerfile_x64_x86/Dockerfile ./app/ && \
+cd example/ && \
+sudo docker compose up
 ```

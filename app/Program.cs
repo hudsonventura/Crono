@@ -2,11 +2,22 @@
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 
-bool firstRun = true;
 string timezone = "";
 
 try
 {
+    setTimezone();
+}
+catch (Exception)
+{
+    Console.WriteLine("You did not specify the timezone, so I get the timezone from the container. If you want, put some thing like below in your docker-compose file in crono.");
+    Console.WriteLine("environment:");
+    Console.WriteLine("\t- TIMEZONE=America/Sao_Paulo");
+}
+
+try
+{
+
     int wait = Int16.Parse(Environment.GetEnvironmentVariable("WAIT"));
     System.Console.WriteLine($"Waiting {wait} seconds to all containers be up");
     Thread.Sleep(wait * 1000);
@@ -38,37 +49,6 @@ Console.WriteLine("Starting the work");
 //LOOP
 while (true)
 {
-    
-    try
-    {
-        string localTZ = Environment.GetEnvironmentVariable("TIMEZONE");
-        if (localTZ == null || localTZ == "")
-        {
-            throw new Exception();
-        }
-
-        if (localTZ != timezone) {
-            timezone = localTZ;
-            System.Console.WriteLine($"Setting timezone {timezone}");
-            ExternalApp.run("ln", $"-sf /usr/share/zoneinfo/{timezone} /etc/localtime");
-            Console.WriteLine($"Set timezone {timezone}");
-        }
-        
-        
-        
-    }
-    catch (Exception)
-    {
-        if (firstRun)
-        {
-            Console.WriteLine("You did not specify the timezone, so I get the timezone from the container. If you want, put some thing like below in your docker-compose file in crono.");
-            Console.WriteLine("environment:");
-            Console.WriteLine("\t- TIMEZONE=America/Sao_Paulo");
-            firstRun = false;
-        }
-        
-    }
-
     if (DateTime.Now.Minute % 10 == 0 )
     {
         Console.WriteLine("Don't worry. I'm working here!");
@@ -82,8 +62,27 @@ while (true)
     {
         Thread.Sleep(100);
     }
-
 }
+
+void setTimezone()
+{
+    string localTZ = Environment.GetEnvironmentVariable("TIMEZONE");
+    if (localTZ == null || localTZ == "")
+    {
+        throw new Exception();
+    }
+
+    if (localTZ != timezone)
+    {
+        timezone = localTZ;
+        System.Console.WriteLine($"Setting timezone {timezone}");
+        ExternalApp.run("ln", $"-sf /usr/share/zoneinfo/{timezone} /etc/localtime");
+        Console.WriteLine($"Set timezone {timezone}");
+    }
+}
+
+
+
 
 void start() {
     List<Container> containers = Yaml.loadFromFile(@$"docker-compose.yml");
@@ -92,11 +91,19 @@ void start() {
     try
     {
         var runningContainers = Docker.getContainersCreated();
-        containers = Docker.getContainersID(containers, runningContainers);
+        try
+        {
+            containers = Docker.getContainersID(containers, runningContainers);
+        }
+        catch (Exception error2)
+        {
+            Console.WriteLine($"Error on get ID of a specific running container. Error: {error2.Message}", Console.typeMessage.FAIL);
+        }
+       
     }
     catch (Exception error)
     {
-        //Console.WriteLine($"Error on get running container. Error: {error.Message}", Console.typeMessage.FAIL);
+        Console.WriteLine($"Error on get running containers. Error: {error.Message}", Console.typeMessage.FAIL);
     }
     
 
@@ -106,14 +113,14 @@ void start() {
         if (atuate)
         {
             //Console.WriteLine($"Restarting service: {container.serviceName} by schedulling {container.scheduling} -> {container.containerID}");
-            Console.WriteLine($"Trying to restart the service: {container.serviceName}");
+            Console.WriteLine($"Service {container.serviceName}: Trying to restart");
             try
             {
                 Task.Run(() => Docker.operateContainer(container, "restart"));
             }
             catch (Exception error)
             {
-                Console.WriteLine($"Fail to restart the container {container.serviceName}. Error: {error.Message}", Console.typeMessage.FAIL);
+                Console.WriteLine($"Service {container.serviceName}: {error.Message}", Console.typeMessage.FAIL);
             }
         }
     }
