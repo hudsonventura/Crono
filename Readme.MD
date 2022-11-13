@@ -2,7 +2,7 @@
 This repo will help you to schedule to restart containers at the same way  as crontab, but inside the docker-compose file.
 <br>
 <br>
-## Requerements
+## Requirements
 A distro Linux, docker, docker-compose, some knowledg about it and Crontab.
 <br>
 <br>
