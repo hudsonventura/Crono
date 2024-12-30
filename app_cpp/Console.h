@@ -9,6 +9,7 @@ class Console {
 public:
     static void Write(std::string scheduling);
     static void WriteLine(std::string scheduling);
+    static void WriteEnd(std::string scheduling);
 };
 
 #endif

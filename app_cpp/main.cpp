@@ -133,16 +133,10 @@ int main() {
         time_t nextMin = now2 + (60 - localtime(&now2)->tm_sec);
         Sleep(difftime(nextMin, now2));
 
-        //write time
-        time_t now3 = time(0);
-        char* datetime = ctime(&now3);
-        Console.WriteLine("");
-        Console.Write(datetime);
         
-
-        Console.Write(" - Reading containers again ... ");
+        Console.Write("Reading containers again ... ");
         runningContainers = getContainers("docker-compose.yml");
-        Console.WriteLine("I found the following containers: ");
+        Console.WriteEnd("I found the following containers: ");
         for (const auto& container : runningContainers) 
         {
             Console.WriteLine(container.containerID);

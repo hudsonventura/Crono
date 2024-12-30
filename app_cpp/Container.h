@@ -29,11 +29,11 @@ public:
         }
 
 
-        if (response.empty()) {
-            std::cout << "Container, " << serviceName << " restarted!' \n";
-        } else {
-            std::cout << "Error on restart container "+serviceName+": " + response;
-        }
+        // if (response.empty()) {
+        //     std::cout << "Container, " << serviceName << " restarted!' \n";
+        // } else {
+        //     std::cout << "Error on restart container "+serviceName+": " + response;
+        // }
     }
 };
 
