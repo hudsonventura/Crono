@@ -7,6 +7,14 @@
 #include <array>
 #include <csignal>
 
+
+#include "Yaml.h"
+#include "Container.h"
+#include "Docker.h"
+#include "Cron.h"
+#include "Console.h"
+
+
 using namespace std;
 
 
@@ -39,13 +47,11 @@ int getWaitFromENV() {
     }
 }
 
-void wait_time(int time) {
+void Sleep(int time) {
     this_thread::sleep_for(chrono::seconds(time));
 }
 
-void showMessage(string message) {
-    cout << message << endl;
-}
+
 
 string getCurrentDateTime() {
     time_t now = time(0);
@@ -57,27 +63,90 @@ string getCurrentDateTime() {
     return string(buffer);
 }
 
+
+
+vector<Container> getContainers(string path) 
+{
+    Yaml yaml;
+    vector<Container> containers = yaml.getContainers(path);
+
+    Docker docker;
+    vector<Container> runningContainers = docker.getContainersCreated(containers);
+
+    return runningContainers;
+}
+
+
+
 int main() {
     signal(SIGINT, [](int signal){ cout << "I received a signal to exit (Ctrl+C), so ... I'm out!" << endl; exit(0); });
+    Console Console;
+
 
     string timezone = getCurrentTimezoneFromENV();
-    showMessage("Timezone: " + timezone);
+    Console.WriteLine("Timezone: " + timezone);
 
     if(timezone == "Etc/UTC") {
-        showMessage("The timezone was not set or it was set to UTC. If you want to set your timezone, use the environment variable TZ=America/Sao_Paulo on your docker-compose file.");
+        Console.WriteLine("The timezone was not set or it was set to UTC. If you want to set your timezone, use the environment variable TZ=America/Sao_Paulo on your docker-compose file.");
     }
 
     int wait = getWaitFromENV();
-    showMessage("Waiting for " + to_string(wait) + " seconds before start my work");
-    wait_time(wait);
+    Console.WriteLine("Waiting for " + to_string(wait) + " seconds before start my work");
+    Sleep(wait);
+
+    Console.WriteLine("");
+    
+    Console.Write("Reading containers ... ");
+    vector<Container> runningContainers = getContainers("docker-compose.yml");
+    Console.WriteLine("I found the following containers: ");
+    for (const auto& container : runningContainers) 
+    {
+        Console.WriteLine(container.containerID);
+    }
+    
+
+    Console.WriteLine("");
+    Console.WriteLine("Starting my work!");
+    Console.WriteLine("");
+    
+
 
     while (true) {
-        string minhaString = "Olá, mundo! " + getCurrentDateTime();
-        cout << minhaString << endl;
+        time_t now = time(0);
+        if (localtime(&now)->tm_min % 10 == 0) {
+            Console.WriteLine("");
+            Console.WriteLine("Don't worry, I'm alive! I'm still working!");
+            Console.WriteLine("");
+        }
 
-        wait_time(3);
+        for (const auto& container : runningContainers) {
+            Cron cron;
+            bool test = cron.test(container.scheduling);
+            //Console.WriteLine(container.containerID+" - "+container.serviceName + " - " + container.scheduling + " - " + to_string(teste));
+            if(test == true){
+                const_cast<Container&>(container).Restart();
+            }
+        }
 
-       
+        //wait to next minute
+        time_t now2 = time(0);
+        time_t nextMin = now2 + (60 - localtime(&now2)->tm_sec);
+        Sleep(difftime(nextMin, now2));
+
+        //write time
+        time_t now3 = time(0);
+        char* datetime = ctime(&now3);
+        Console.WriteLine("");
+        Console.Write(datetime);
+        
+
+        Console.Write(" - Reading containers again ... ");
+        runningContainers = getContainers("docker-compose.yml");
+        Console.WriteLine("I found the following containers: ");
+        for (const auto& container : runningContainers) 
+        {
+            Console.WriteLine(container.containerID);
+        }
         
 
     }

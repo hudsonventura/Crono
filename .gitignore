@@ -3,3 +3,4 @@ app/.vs/*
 app/bin/*
 app/obj/*
 app_cpp/output/main
+app_cpp/output/crono
