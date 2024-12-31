@@ -35,10 +35,10 @@ public:
 
         if (response.empty()) {
             Console.WriteLine("Container, "+serviceName+" restarted!");
-            Log.Info("Container, "+serviceName+" restarted!");
+            Log.Info(serviceName + " restarted successfully");
         } else {
             Console.Error("Error on restart container "+serviceName+": " + response);
-            Log.Error("Error on restart container "+serviceName+": " + response);
+            Log.Error(serviceName+" error on restart: " + response);
         }
     }
 };

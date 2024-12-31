@@ -98,6 +98,12 @@ int main() {
     
     Console.Write("Reading containers ... ");
     vector<Container> runningContainers = getContainers("docker-compose.yml");
+    int count = runningContainers.size();
+    if(count == 0) {
+        Console.WriteEnd("I didn't find any containers to work with. I'm out!");
+        exit(0);
+    }
+
     Console.WriteLine("I found the following containers: ");
     for (const auto& container : runningContainers) 
     {
