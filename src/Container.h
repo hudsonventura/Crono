@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include "Console.h"
+#include "Log.h"
 
 class Container {
 public:
@@ -17,6 +18,7 @@ public:
     // Método extra para exibir informações
     void Restart() {
         Console Console;
+        Log Log;
         std::string command = "curl --silent -XPOST --unix-socket /var/run/docker.sock -H 'Content-Type: application/json' http://localhost/containers/" + containerID + "/restart";
 
         std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"), pclose);
@@ -33,8 +35,10 @@ public:
 
         if (response.empty()) {
             Console.WriteLine("Container, "+serviceName+" restarted!");
+            Log.Info("Container, "+serviceName+" restarted!");
         } else {
             Console.Error("Error on restart container "+serviceName+": " + response);
+            Log.Error("Error on restart container "+serviceName+": " + response);
         }
     }
 };

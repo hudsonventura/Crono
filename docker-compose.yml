@@ -45,6 +45,7 @@ services:
     volumes:
       - "./docker-compose.yml:/app/docker-compose.yml"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./logs/crono/:/app/logs/"
     
     environment: 
       - TZ=America/Sao_Paulo

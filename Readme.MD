@@ -73,6 +73,7 @@ Functional example 1:
     volumes:
         - "./docker-compose.yml:/app/docker-compose.yml" 
         - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        #- "./logs/crono/:/app/logs/" #Optional
     
     environment: 
         #- TZ=America/Sao_Paulo 
@@ -80,8 +81,9 @@ Functional example 1:
 ```
 The volume `- "./docker-compose.yml:/app/docker-compose.yml"`, you have to point your docker-compose file. Crono will read this file to work.
 <br>
-<br>
 The volume `- "/var/run/docker.sock:/var/run/docker.sock:ro"`, will used from Crono to call Docker Api.
+<br>
+The volume `- "./logs/crono/:/app/logs/"`, will used to persist logs, if you need.
 <br>
 <br>
 The environment `#- TZ=America/Sao_Paulo`, you can identify a timezone. If you ignore, it'll assume Etc/UTC. You can see a complete list in [https://en.wikipedia.org/wiki/List_of_tz_database_time_zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
