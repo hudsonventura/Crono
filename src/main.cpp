@@ -32,7 +32,11 @@ string exec(const char* cmd) {
 }
 
 string getCurrentTimezoneFromENV() {
-    return exec("cat /etc/timezone");
+    const char* tz = getenv("TZ");
+    if (tz == nullptr) {
+        tz = "Etc/UTC";
+    }
+    return tz;
 }
 
 int getWaitFromENV() {
@@ -76,18 +80,34 @@ vector<Container> getContainers(string path)
     return runningContainers;
 }
 
+Log logger;
+
+void SignalHandler(int signal) {
+    logger.Test();
+    std::cout << "I received a signal to exit (Ctrl+C), so ... I'm out!" << std::endl;
+    logger.Info("I received a signal to exit (Ctrl+C), so ... I'm out!");
+    exit(0);
+}
+
+
 
 
 int main() {
     signal(SIGINT, [](int signal){ cout << "I received a signal to exit (Ctrl+C), so ... I'm out!" << endl; exit(0); });
     Console Console;
 
+    Log Log;
+    Log.Test(); //Write on screen if it will save or not logs in file
+
+    signal(SIGINT, SignalHandler);
+    signal(SIGTERM, SignalHandler);
+
 
     string timezone = getCurrentTimezoneFromENV();
     Console.WriteLine("Timezone: " + timezone);
 
     if(timezone == "Etc/UTC") {
-        Console.WriteLine("The timezone was not set or it was set to UTC. If you want to set your timezone, use the environment variable TZ=America/Sao_Paulo on your docker-compose file.");
+        Console.WriteLine("The timezone was not set or it was set to UTC. If you want to set another timezone, use the environment variable TZ like 'TZ=America/Sao_Paulo' on your docker-compose file.");
     }
 
     int wait = getWaitFromENV();
@@ -104,7 +124,7 @@ int main() {
         exit(0);
     }
 
-    Console.WriteLine("I found the following containers: ");
+    Console.WriteEnd("I found the following containers: ");
     for (const auto& container : runningContainers) 
     {
         Console.WriteLine(container.containerID);
@@ -113,6 +133,8 @@ int main() {
 
     Console.WriteLine("");
     Console.WriteLine("Starting my work!");
+    Log.Info("");
+    Log.Info("Starting my work!");
     Console.WriteLine("");
     
 
@@ -150,6 +172,7 @@ int main() {
         
 
     }
+    Log.Info("I'm out!");
     return 0;
 }
 

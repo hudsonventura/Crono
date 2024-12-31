@@ -19,6 +19,9 @@ public:
     void Restart() {
         Console Console;
         Log Log;
+
+        Console.Write("Restarting container "+ serviceName + " ... ");
+        
         std::string command = "curl --silent -XPOST --unix-socket /var/run/docker.sock -H 'Content-Type: application/json' http://localhost/containers/" + containerID + "/restart";
 
         std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"), pclose);
@@ -34,10 +37,10 @@ public:
 
 
         if (response.empty()) {
-            Console.WriteLine("Container, "+serviceName+" restarted!");
+            Console.WriteEnd(" Done!");
             Log.Info(serviceName + " restarted successfully");
         } else {
-            Console.Error("Error on restart container "+serviceName+": " + response);
+            Console.Error("Error: " + response);
             Log.Error(serviceName+" error on restart: " + response);
         }
     }

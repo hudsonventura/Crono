@@ -16,18 +16,27 @@
 
 class Log {
 public:
-    //constructor
+    
+    /// @brief Decide if it will save or not logs in file
     Log() {
         Console Console;
         struct stat info;
         if (stat("./logs", &info) == 0 && (info.st_mode & S_IFDIR)) {
-            Console.WriteLine("I'll save logs on ./logs");
             save = true;
         } else {
-            Console.WriteLine("I'll NOT save logs. If you want to save logs, create, uncomment the line '#- \"./logs/:/app/logs/\"' on docker-compose.yml");
             save = false;
         }
+    }
 
+    /// @brief Write on screen if it will save or not logs in file
+    void Test(){
+        Console Console;
+        struct stat info;
+        if (stat("./logs", &info) == 0 && (info.st_mode & S_IFDIR)) {
+            Console.WriteLine("I'll save logs on ./logs");
+        } else {
+            Console.WriteLine("I'll NOT save logs. If you want to save logs, create, uncomment the line '#- \"./logs/:/app/logs/\"' on docker-compose.yml");
+        }
     }
 
 
@@ -75,3 +84,5 @@ private:
 };
 
 #endif
+
+
