@@ -7,9 +7,10 @@
 
 class Console {
 public:
-    static void Write(std::string scheduling);
-    static void WriteLine(std::string scheduling);
-    static void WriteEnd(std::string scheduling);
+    static void Write(std::string message);
+    static void WriteLine(std::string message);
+    static void WriteEnd(std::string message);
+    static void Error(std::string message);
 };
 
 #endif
