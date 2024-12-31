@@ -93,7 +93,19 @@ void SignalHandler(int signal) {
 
 
 int main() {
-    signal(SIGINT, [](int signal){ cout << "I received a signal to exit (Ctrl+C), so ... I'm out!" << endl; exit(0); });
+
+    std::cout << "   ______" << std::endl;
+    std::cout << "  / ____/________  ____  ____" << std::endl;
+    std::cout << " / /   / ___/ __ \\/ __ \\/ __ \\" << std::endl;
+    std::cout << "/ /___/ /  / /_/ / / / / /_/ /" << std::endl;
+    std::cout << "\\____/_/   \\____/_/ /_/\\____/      The container restarter =)" << std::endl;
+    std::cout << std::endl;
+                            
+       
+    
+
+
+
     Console Console;
 
     Log Log;
@@ -101,7 +113,7 @@ int main() {
 
     signal(SIGINT, SignalHandler);
     signal(SIGTERM, SignalHandler);
-
+    
 
     string timezone = getCurrentTimezoneFromENV();
     Console.WriteLine("Timezone: " + timezone);

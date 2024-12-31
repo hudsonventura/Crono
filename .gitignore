@@ -4,3 +4,4 @@ app/bin/*
 app/obj/*
 src/output/*
 src/logs/*
+logs/*
