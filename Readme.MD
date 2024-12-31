@@ -1,7 +1,18 @@
 # Crono
-This repo will help you to schedule to restart containers at the same way as crontab, but inside the docker-compose file, together your app.
+This app will help you schedule container restarts in the same way as crontab, but inside the docker-compose file, together your projects.
 <br>
 <br>
+### About
+<br>
+You can inform a time (like crontab) to restart like this:
+<img src="images/example.png" alt="Example">
+<br>
+<br>
+<br>
+It uses less than 1 MB of RAM with 4 containers.
+<img src="images/memory_usage.png" alt="Memory Usage">
+
+
 ## Requirements
 A distro Linux, docker, docker-compose, some knowledge about it and Crontab.
 <br>
@@ -54,7 +65,7 @@ You can infform some keys like @yearly, @annually, @monthly, @weekly, @daily or 
 <br>
 ## Put the Crono service
 
-Functional example:
+Functional example 1:
 ```yaml
   crono:
     image: hudsonventura/crono:latest
@@ -83,30 +94,10 @@ The `volumes` params are mandatories, but the `environments` are optional.
 <br>
 <br>
 
-## If you want to compile you image ...
-<br>
+## If you want to build your Docker image ...
 
-Change docker compose file to get local image:
-```yaml
-crono:
-    image: crono  #HERE
-    restart: always
-    volumes:
-        - "./docker-compose.yml:/app/docker-compose.yml"
-        - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    
-    environment: 
-        - TIMEZONE=America/Sao_Paulo
-        - WAIT=3
-```
+Just:
 
-<br>
-On example directory, run it to build:
-
-``` bash
-sudo docker compose down && \
-cd .. && \
-sudo docker build -t crono -f ./app/Dockerfile_x64_x86/Dockerfile ./app/ && \
-cd example/ && \
+```bash
 sudo docker compose up
 ```

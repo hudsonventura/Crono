@@ -39,7 +39,7 @@ services:
 
   crono:
     build:
-      context: ./app_cpp/
+      context: ./src/
       dockerfile: Dockerfile
     restart: always
     volumes:
@@ -47,6 +47,6 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     
     environment: 
-      - TIMEZONE=America/Sao_Paulo
+      - TZ=America/Sao_Paulo
       - WAIT=3
   
