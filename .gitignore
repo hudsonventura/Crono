@@ -2,3 +2,6 @@ app/.vscode/*
 app/.vs/*
 app/bin/*
 app/obj/*
+src/output/*
+src/logs/*
+logs/*
