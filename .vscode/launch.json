@@ -1,18 +1,27 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        
+    "version": "2.0.0",
+    "tasks": [
         {
-            "name": "cpp - Build and debug active file",
-            "type": "gdb",
+            "label": "build cpp",
+            "type": "shell",
             "command": "/usr/bin/g++",
-            "args": ["-g", "${workspaceFolder}/app_cpp/*.cpp", "-o", "${fileDirname}/${fileBasenameNoExtension}"],
-            "request": "launch",
-            "program": "${workspaceFolder}/app_cpp/*.cpp",
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "preLaunchTask": "build cpp"
+            "args": [
+                "${workspaceFolder}/src/main.cpp",
+                "${workspaceFolder}/src/Yaml.cpp",  
+                "${workspaceFolder}/src/Container.cpp",
+                "${workspaceFolder}/src/Cron.cpp",
+                "${workspaceFolder}/src/Console.cpp",
+                "${workspaceFolder}/src/Docker.cpp",
+                "$(pkg-config --cflags --libs jsoncpp yaml-cpp)",
+                "-o",
+                "crono"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Generates the executable"
         }
     ]
 }
-

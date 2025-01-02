@@ -16,7 +16,7 @@ RUN g++ main.cpp Yaml.cpp Container.cpp Docker.cpp Cron.cpp Console.cpp $(pkg-co
 
 # Definir o comando padrão para executar o aplicativo
 CMD ["./crono"]
-# g++ main.cpp Yaml.cpp Container.cpp Docker.cpp Cron.cpp $(pkg-config --cflags --libs jsoncpp yaml-cpp) -o output/crono
+# g++ main.cpp Yaml.cpp Container.cpp Docker.cpp Cron.cpp Console.cpp $(pkg-config --cflags --libs jsoncpp yaml-cpp) -o output/crono
 # watch "ps -C crono -o rss | awk 'NR>1 {print \$1/1024 \" MB\"}'"
 # watch "ps -C crono -o rss | awk 'NR>1 {print \$1 \" KB\"}'"
 

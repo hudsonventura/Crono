@@ -58,6 +58,13 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "csignal": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp",
+        "cstring": "cpp",
+        "list": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "valarray": "cpp"
     }
 }
