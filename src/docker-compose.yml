@@ -36,5 +36,22 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=myStr0ngP4ssw0rd
     labels:
-        crono: "28 * * * *"
+        test: "28 * * * *"
+
+  service5:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=myStr0ngP4ssw0rd
+
+
+  service6:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=myStr0ngP4ssw0rd
+    labels:
+        crono: "*/3 * * * *"
 

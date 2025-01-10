@@ -53,6 +53,12 @@ bool Cron::matchesField(const std::string& field, int value) {
         return true; // Aceita qualquer valor
     }
 
+    if (field.size() > 2 && field[0] == '*' && field[1] == '/') {
+        int step = std::stoi(field.substr(2));
+        return value % step == 0; // Aceita valores que sejam m ltiplos do passo
+    }
+    
+
     std::istringstream ss(field);
     std::string token;
 

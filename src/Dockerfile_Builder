@@ -1,0 +1,41 @@
+#-------------------------------------COMPILER-------------------------------------
+# Use an image with build tools
+FROM gcc:latest as build
+
+# Create a working directory in the container
+WORKDIR /app
+
+# Install libyaml-cpp-dev
+RUN apt update && apt install -y libyaml-cpp-dev libjsoncpp-dev
+
+# Copy source code from host to container
+COPY . .
+
+# Compile source code (replace "main.cpp" with your file name)
+RUN g++ main.cpp Yaml.cpp Container.cpp Docker.cpp Cron.cpp Console.cpp $(pkg-config --cflags --libs jsoncpp yaml-cpp) -o crono
+
+
+
+
+
+#----------------------------------FINAL IMAGE------------------------------------
+# Create a final image from Alpine Linux
+FROM alpine
+
+# Copy necessary libraries that there aren't apk on https://pkgs.alpinelinux.org/ (I didn't find)
+COPY --from=build /lib/x86_64-linux-gnu/libjsoncpp.so.25 /usr/lib/libjsoncpp.so.25
+COPY --from=build /lib/x86_64-linux-gnu/libyaml-cpp.so.0.7 /usr/lib/libyaml-cpp.so.0.7
+
+
+# Create a working directory in the container
+WORKDIR /app
+
+# Copy the compiled binary from the build stage
+COPY --from=build /app/crono .
+
+# Install the basic to work
+RUN apk add --no-cache libc6-compat libstdc++ curl
+
+# Set the default command to run the application
+ENTRYPOINT ["./crono"]
+

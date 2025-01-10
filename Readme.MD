@@ -4,12 +4,12 @@ This app will help you schedule container restarts in the same way as crontab, b
 <br>
 ### About
 <br>
-You can inform a time (like crontab) to restart like this:
+You can inform a time (like crontab) to restart like this:  
 <img src="images/example.png" alt="Example">
 <br>
 <br>
 <br>
-It uses less than 1 MB of RAM with 4 containers.
+It uses less than 1 MB of RAM with 4 containers.  
 <img src="images/memory_usage.png" alt="Memory Usage">
 
 
@@ -90,9 +90,6 @@ The environment `#- TZ=America/Sao_Paulo`, you can identify a timezone. If you i
 <br>
 <br>
 The environment `WAIT=10` It'll wait how many seconds you set before read and start the operations on you containers.<br>
-<br>
-<br>
-The `volumes` params are mandatories, but the `environments` are optional.
 <br>
 <br>
 
